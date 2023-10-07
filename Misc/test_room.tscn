@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://cqr47f7twfhyu"]
+
+[ext_resource type="Environment" uid="uid://e0kgwloklvh5" path="res://Misc/default_environment.tres" id="1_2s2d6"]
+[ext_resource type="PackedScene" uid="uid://b2uij8bn6o5v4" path="res://Player/player.tscn" id="1_16ytx"]
+[ext_resource type="PackedScene" uid="uid://bfso783o2bk30" path="res://Misc/hud.tscn" id="2_g7csh"]
+[ext_resource type="Material" uid="uid://cgr0foefjsveq" path="res://Misc/grid_material.tres" id="5_c0j3a"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2e1ls"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_s8sqs"]
+
+[node name="TestRoom" type="WorldEnvironment"]
+environment = ExtResource("1_2s2d6")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.679441, 0.73373, 0, -0.73373, 0.679441, 0, 0, 0)
+light_color = Color(0.658824, 0.419608, 0.780392, 1)
+light_volumetric_fog_energy = 5.0
+shadow_blur = 5.327
+
+[node name="HUD" parent="." instance=ExtResource("2_g7csh")]
+
+[node name="Player" parent="." instance=ExtResource("1_16ytx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.17019, 0)
+
+[node name="Floor" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(10.005, 0, 0, 0, 10.005, 0, 0, 0, 10.005, 0, 0, 0)
+material_override = ExtResource("5_c0j3a")
+mesh = SubResource("PlaneMesh_2e1ls")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_s8sqs")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -3.5)
+material = ExtResource("5_c0j3a")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, -5)
+material = ExtResource("5_c0j3a")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, 1, 0, -4)
+polygon = PackedVector2Array(0, 0, 0, 2, 3, 0, 1, 0)
+material = ExtResource("5_c0j3a")

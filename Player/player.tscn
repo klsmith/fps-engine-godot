@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://b2uij8bn6o5v4"]
+
+[ext_resource type="Script" path="res://Player/player.gd" id="1_w47di"]
+[ext_resource type="Script" path="res://Player/camera_holder.gd" id="2_6qyme"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ljk0d"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_07b1e"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_w47di")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_ljk0d")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_07b1e")
+
+[node name="CameraHolder" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+script = ExtResource("2_6qyme")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="CameraHolder"]
+light_color = Color(1, 0.819608, 0.54902, 1)
+light_energy = 16.0
+spot_range = 12.0
+spot_attenuation = 0.0603724
+spot_angle_attenuation = 10.5561
+
+[node name="Camera3D" type="Camera3D" parent="CameraHolder"]
